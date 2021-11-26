@@ -1,58 +1,63 @@
 import React from "react"
 import { graphql, useStaticQuery } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
+import BackgroundImage from "gatsby-background-image"
 import styled from "@emotion/styled"
-const ImageBackground = styled(StaticImage)`
+
+const ImageBackground = styled(BackgroundImage)`
   height: 700px;
+`
+const TextoImagen = styled.div`
+  background-image: linear-gradient(
+    to top,
+    rgba(34, 49, 63, 0.8),
+    rgba(34, 49, 63, 0.8)
+  );
+  color: #fff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    font-size: 4rem;
+    margin: 0%;
+
+    @media (min-width: 992px) {
+      font-size: 5.8rem;
+    }
+  }
+  p {
+    font-size: 2rem;
+    @media (min-width: 992px) {
+      font-size: 2.6rem;
+    }
+  }
 `
 
 const ImagenHotel = () => {
   const { image } = useStaticQuery(graphql`
     query {
       image: file(relativePath: { eq: "8.jpg" }) {
-        sharp: childrenImageSharp {
+        sharp: childImageSharp {
           fluid {
-            srcSetWebp
+            ...GatsbyImageSharpFluid_withWebp
           }
         }
       }
     }
   `)
-  console.log("xxx")
-  console.log(image.sharp[0].fluid)
+
+  // console.log(image.sharp.fluid);
+
   return (
-    <div style={{ display: "grid" }}>
-      {/* You can use a GatsbyImage component if the image is dynamic */}
-      <StaticImage
-        style={{
-          gridArea: "1/1",
-          // You can set a maximum height for the image, if you wish.
-          // maxHeight: 600,
-        }}
-        layout="fullWidth"
-        // You can optionally force an aspect ratio for the generated image
-        aspectRatio={3 / 1}
-        // This is a presentational image, so the alt should be an empty string
-        alt=""
-        // Assisi, Perúgia, Itália by Bernardo Ferrari, via Unsplash
-        src={
-          "https://images.unsplash.com/photo-1604975999044-188783d54fb3?w=2589"
-        }
-        formats={["auto", "webp", "avif"]}
-      />
-      <div
-        style={{
-          // By using the same grid area for both, they are stacked on top of each other
-          gridArea: "1/1",
-          position: "relative",
-          // This centers the other elements inside the hero component
-          placeItems: "center",
-          display: "grid",
-        }}
-      >
-        {/* Any content here will be centered in the component */}
-      </div>
-    </div>
+    <ImageBackground tag="section" fluid={image.sharp.fluid} fadeIn="soft">
+      <TextoImagen>
+        <h1>Bienvenido a Hotel Gatsby</h1>
+        <p>El mejor hotel para tus vacaciones</p>
+      </TextoImagen>
+    </ImageBackground>
   )
 }
 

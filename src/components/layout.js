@@ -1,7 +1,7 @@
 import React from "react"
 import Header from "./header"
 import { Helmet } from "react-helmet"
-import { Global, css } from "@emotion/react"
+import { Global, css } from "@emotion/core"
 const Layout = props => {
   return (
     <>
