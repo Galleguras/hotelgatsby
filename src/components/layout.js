@@ -1,8 +1,18 @@
 import React from "react"
 import Header from "./header"
+import Footer from "./footer"
 import { Helmet } from "react-helmet"
 import { Global, css } from "@emotion/core"
+import useSeo from "../hook/use-seo"
 const Layout = props => {
+  const seo = useSeo()
+  console.log("seo-->>", seo)
+  const descripcion2 = seo.siteMetadata
+  console.log("seo2-->>", descripcion2)
+  const {
+    siteMetadata: { description, title },
+  } = seo
+  console.log("seo3-->>", description)
   return (
     <>
       <Global
@@ -42,7 +52,8 @@ const Layout = props => {
         `}
       />
       <Helmet>
-        <title>Gatsby Hotel</title>
+        <title>{title}</title>
+        <meta name="description" content={description} />
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
@@ -60,6 +71,7 @@ const Layout = props => {
       </Helmet>
       <Header />
       {props.children}
+      <Footer title={title} />
     </>
   )
 }
